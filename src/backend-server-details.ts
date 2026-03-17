@@ -4,6 +4,7 @@ export interface IBackendServerDetails {
     url: string;
     serverWeight: number;
     requestsServed: number;
+    currentConnections: number;
 
     getStatus(): BEServerHealth;
     setStatus(status: BEServerHealth): void;
@@ -16,12 +17,14 @@ export class BackendServerDetails implements IBackendServerDetails {
     public url: string;
     public serverWeight: number;
     public requestsServed: number;
+    public currentConnections: number;
     private status: BEServerHealth;
 
-    constructor(url: string, weight: number) {
+    constructor(url: string, serverWeight: number) {
         this.url = url;
-        this.serverWeight = weight;
+        this.serverWeight = serverWeight;
         this.requestsServed = 0;
+        this.currentConnections = 0;
         this.status = BEServerHealth.UNHEALTHY;
     }
 
@@ -39,5 +42,6 @@ export class BackendServerDetails implements IBackendServerDetails {
 
     public resetMetrics(): void {
         this.requestsServed = 0;
+        this.currentConnections = 0;
     }
 }
