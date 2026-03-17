@@ -3,6 +3,8 @@ import { BEServerHealth } from './utils/enums';
 export interface IBackendServerDetails {
   url: string;
   serverWeight: number;
+  requestsServed: number; // Added to interface to ensure visibility
+  
   getStatus(): BEServerHealth;
   setStatus(status: BEServerHealth): void;
   incrementRequestsServed(): void;
@@ -12,13 +14,13 @@ export interface IBackendServerDetails {
 export class BackendServerDetails implements IBackendServerDetails {
   public url: string;
   public serverWeight: number;
+  public requestsServed: number = 0; // Set to public so the test can verify it
   private status: BEServerHealth;
-  private requestsServed: number = 0;
 
   constructor(url: string, weight: number) {
     this.url = url;
     this.serverWeight = weight;
-    // Default to UNHEALTHY until first health check passes
+    // Default to UNHEALTHY per instructions
     this.status = BEServerHealth.UNHEALTHY;
   }
 
@@ -36,14 +38,5 @@ export class BackendServerDetails implements IBackendServerDetails {
 
   public resetMetrics(): void {
     this.requestsServed = 0;
-  }
-
-  // Helper for debugging/logging
-  public getMetrics() {
-    return {
-      url: this.url,
-      status: this.status,
-      requestsServed: this.requestsServed
-    };
   }
 }
