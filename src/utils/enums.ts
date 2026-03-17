@@ -1,4 +1,4 @@
 export enum BEServerHealth {
-    HEALTHY,
-    UNHEALTHY
+    HEALTHY = "HEALTHY",
+    UNHEALTHY = "UNHEALTHY"
 }
