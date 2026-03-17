@@ -10,6 +10,7 @@ export interface IBackendServerDetails {
     
     // Metrics
     incrementRequestsServed(): void;
+    getRequestsServed(): number; // Added this getter
     resetMetrics(): void;
 }
 
@@ -36,6 +37,11 @@ export class BackendServerDetails implements IBackendServerDetails {
 
     public incrementRequestsServed(): void {
         this.requestsServed++;
+    }
+
+    // Adding this so the test executor can actually see the count
+    public getRequestsServed(): number {
+        return this.requestsServed;
     }
 
     public resetMetrics(): void {
