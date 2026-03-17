@@ -3,6 +3,7 @@ import { BEServerHealth } from './utils/enums';
 export interface IBackendServerDetails {
     url: string;
     serverWeight: number;
+    requestsServed: number;  // ← ADD THIS
     
     // Status
     getStatus(): BEServerHealth;
@@ -16,13 +17,13 @@ export interface IBackendServerDetails {
 export class BackendServerDetails implements IBackendServerDetails {
     public url: string;
     public serverWeight: number;
+    public requestsServed: number;
     private status: BEServerHealth;
-    // Removing 'public' and keeping it strictly to the interface requirements
-    private requestsServed: number = 0;
 
     constructor(url: string, weight: number) {
         this.url = url;
         this.serverWeight = weight;
+        this.requestsServed = 0;  // ← explicit initialization
         this.status = BEServerHealth.UNHEALTHY;
     }
 
@@ -35,8 +36,7 @@ export class BackendServerDetails implements IBackendServerDetails {
     }
 
     public incrementRequestsServed(): void {
-        // Use the += operator to be safe
-        this.requestsServed += 1;
+        this.requestsServed++;
     }
 
     public resetMetrics(): void {
